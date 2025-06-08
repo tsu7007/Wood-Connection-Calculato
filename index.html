@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eurocode 5 - Wood Connection Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Eurocode 5 Wood Connection Calculator</h1>
+            <p class="app-description">Professional structural engineering tool for calculating wood connections according to EN 1995-1-1</p>
+        </header>
+
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="tirefonds">Tirefonds/Screws</button>
+            <button class="tab-btn" data-tab="nails">Nails</button>
+            <button class="tab-btn" data-tab="bolts">Bolts</button>
+            <button class="tab-btn" data-tab="summary">Summary</button>
+        </nav>
+
+        <main class="app-content">
+            <!-- Tirefonds/Screws Tab -->
+            <div id="tirefonds-tab" class="tab-content active">
+                <div class="input-output-layout">
+                    <div class="input-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Wood Properties</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="form-group">
+                                    <label class="form-label" for="wood-class">Wood Class</label>
+                                    <select id="wood-class" class="form-control">
+                                        <option value="C14">C14</option>
+                                        <option value="C16">C16</option>
+                                        <option value="C18">C18</option>
+                                        <option value="C22">C22</option>
+                                        <option value="C24">C24</option>
+                                        <option value="C27">C27</option>
+                                        <option value="GL20">GL20</option>
+                                        <option value="GL22">GL22</option>
+                                        <option value="GL24">GL24</option>
+                                        <option value="GL24h" selected>GL24h</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="service-class">Service Class</label>
+                                    <select id="service-class" class="form-control">
+                                        <option value="1">Service Class 1</option>
+                                        <option value="2" selected>Service Class 2</option>
+                                        <option value="3">Service Class 3</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="load-duration">Load Duration</label>
+                                    <select id="load-duration" class="form-control">
+                                        <option value="permanent">Permanent</option>
+                                        <option value="long_term">Long-term</option>
+                                        <option value="medium_term" selected>Medium-term</option>
+                                        <option value="short_term">Short-term</option>
+                                        <option value="instantaneous">Instantaneous</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="thickness-1">Thickness 1 (mm)</label>
+                                    <input type="number" id="thickness-1" class="form-control" value="36" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="thickness-2">Thickness 2 (mm)</label>
+                                    <input type="number" id="thickness-2" class="form-control" value="97" min="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Screw Properties</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="form-group">
+                                    <label class="form-label" for="screw-diameter">Diameter (mm)</label>
+                                    <input type="number" id="screw-diameter" class="form-control" value="5.3" min="0" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="screw-length">Length (mm)</label>
+                                    <input type="number" id="screw-length" class="form-control" value="120" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="screw-fuk">fu,k (N/mm²)</label>
+                                    <input type="number" id="screw-fuk" class="form-control" value="600" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="angle-1">Angle 1 (°)</label>
+                                    <input type="number" id="angle-1" class="form-control" value="38" min="0" max="90">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="angle-2">Angle 2 (°)</label>
+                                    <input type="number" id="angle-2" class="form-control" value="0" min="0" max="90">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="screw-quantity">Quantity</label>
+                                    <input type="number" id="screw-quantity" class="form-control" value="4" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Applied Forces</h3>
+                            </div>
+                            <div class="card__body">
+                                <h4>ELS (Serviceability)</h4>
+                                <div class="form-group">
+                                    <label class="form-label" for="els-tension">Tension (N)</label>
+                                    <input type="number" id="els-tension" class="form-control" value="4150" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="els-shear">Shear (N)</label>
+                                    <input type="number" id="els-shear" class="form-control" value="280" min="0">
+                                </div>
+                                <h4>ELU (Ultimate)</h4>
+                                <div class="form-group">
+                                    <label class="form-label" for="elu-tension">Tension (N)</label>
+                                    <input type="number" id="elu-tension" class="form-control" value="5602.5" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="elu-shear">Shear (N)</label>
+                                    <input type="number" id="elu-shear" class="form-control" value="378" min="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="results-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Calculation Results - Tirefonds</h3>
+                            </div>
+                            <div class="card__body">
+                                <div id="tirefonds-results">
+                                    <div class="result-item">
+                                        <h4>Material Properties</h4>
+                                        <div class="result-value">k<sub>mod</sub> = <span id="kmod-value">0.8</span></div>
+                                        <div class="result-value">ρ<sub>k</sub> = <span id="rhok-value">380</span> kg/m³</div>
+                                    </div>
+                                    
+                                    <div class="result-item">
+                                        <h4>Bearing Strength</h4>
+                                        <div class="result-value">f<sub>h,k</sub> = <span id="fhk-value">0</span> N/mm²</div>
+                                        <div class="result-value">f<sub>h,d</sub> = <span id="fhd-value">0</span> N/mm²</div>
+                                    </div>
+                                    
+                                    <div class="result-item">
+                                        <h4>Withdrawal Capacity</h4>
+                                        <div class="result-value">f<sub>ax,k</sub> = <span id="faxk-value">0</span> N/mm²</div>
+                                        <div class="result-value">F<sub>ax,Rd</sub> = <span id="faxrd-value">0</span> N per screw</div>
+                                    </div>
+                                    
+                                    <div class="result-item">
+                                        <h4>Lateral Resistance</h4>
+                                        <div class="result-value">F<sub>v,Rd</sub> = <span id="fvrd-value">0</span> N per screw</div>
+                                    </div>
+                                    
+                                    <div class="result-item">
+                                        <h4>Combined Loading</h4>
+                                        <div class="result-value">Utilization = <span id="utilization-value">0</span>%</div>
+                                        <div class="compliance-indicator">
+                                            <span id="compliance-status" class="status status--success">CONFORME</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nails Tab -->
+            <div id="nails-tab" class="tab-content">
+                <div class="input-output-layout">
+                    <div class="input-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Nail Properties</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="form-group">
+                                    <label class="form-label" for="nail-diameter">Diameter (mm)</label>
+                                    <input type="number" id="nail-diameter" class="form-control" value="4.0" min="0" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="nail-length">Length (mm)</label>
+                                    <input type="number" id="nail-length" class="form-control" value="90" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="nail-type">Type</label>
+                                    <select id="nail-type" class="form-control">
+                                        <option value="smooth">Smooth</option>
+                                        <option value="twisted">Twisted</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="nail-quantity">Quantity</label>
+                                    <input type="number" id="nail-quantity" class="form-control" value="6" min="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Calculation Results - Nails</h3>
+                            </div>
+                            <div class="card__body">
+                                <div id="nails-results">
+                                    <div class="result-item">
+                                        <h4>Penetration Check</h4>
+                                        <div class="result-value">Penetration = <span id="nail-penetration">0</span> mm</div>
+                                        <div class="result-value">Min. required = <span id="nail-min-penetration">0</span> mm</div>
+                                    </div>
+                                    
+                                    <div class="result-item">
+                                        <h4>Lateral Resistance</h4>
+                                        <div class="result-value">F<sub>v,Rd</sub> = <span id="nail-fvrd">0</span> N per nail</div>
+                                    </div>
+                                    
+                                    <div class="result-item">
+                                        <h4>Total Capacity</h4>
+                                        <div class="result-value">Total F<sub>v,Rd</sub> = <span id="nail-total-capacity">0</span> N</div>
+                                        <div class="compliance-indicator">
+                                            <span id="nail-compliance" class="status status--success">CONFORME</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bolts Tab -->
+            <div id="bolts-tab" class="tab-content">
+                <div class="input-output-layout">
+                    <div class="input-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Bolt Properties</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="form-group">
+                                    <label class="form-label" for="bolt-diameter">Diameter (mm)</label>
+                                    <input type="number" id="bolt-diameter" class="form-control" value="12" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="bolt-class">Bolt Class</label>
+                                    <select id="bolt-class" class="form-control">
+                                        <option value="4.6">4.6</option>
+                                        <option value="4.8">4.8</option>
+                                        <option value="5.6">5.6</option>
+                                        <option value="5.8">5.8</option>
+                                        <option value="6.8">6.8</option>
+                                        <option value="8.8" selected>8.8</option>
+                                        <option value="10.9">10.9</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="bolt-quantity">Quantity</label>
+                                    <input type="number" id="bolt-quantity" class="form-control" value="2" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="washer-size">Washer Size (mm)</label>
+                                    <input type="number" id="washer-size" class="form-control" value="40" min="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-section">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Calculation Results - Bolts</h3>
+                            </div>
+                            <div class="card__body">
+                                <div id="bolts-results">
+                                    <div class="result-item">
+                                        <h4>Bearing Strength</h4>
+                                        <div class="result-value">f<sub>h,k</sub> = <span id="bolt-fhk">0</span> N/mm²</div>
+                                    </div>
+                                    
+                                    <div class="result-item">
+                                        <h4>Bolt Resistance</h4>
+                                        <div class="result-value">F<sub>v,Rd</sub> = <span id="bolt-fvrd">0</span> N per bolt</div>
+                                    </div>
+                                    
+                                    <div class="result-item">
+                                        <h4>Total Capacity</h4>
+                                        <div class="result-value">Total F<sub>v,Rd</sub> = <span id="bolt-total-capacity">0</span> N</div>
+                                        <div class="compliance-indicator">
+                                            <span id="bolt-compliance" class="status status--success">CONFORME</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Tab -->
+            <div id="summary-tab" class="tab-content">
+                <div class="card">
+                    <div class="card__header">
+                        <h3>Project Summary</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="summary-table">
+                            <table class="results-table">
+                                <thead>
+                                    <tr>
+                                        <th>Connection Type</th>
+                                        <th>Capacity (N)</th>
+                                        <th>Applied Force (N)</th>
+                                        <th>Utilization (%)</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="summary-table-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="summary-actions">
+                            <button class="btn btn--primary" id="save-project">Save Project</button>
+                            <button class="btn btn--secondary" id="load-project">Load Project</button>
+                            <button class="btn btn--outline" id="export-report">Export Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
